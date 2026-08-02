@@ -1,0 +1,31 @@
+# ── Dependencies & build output ─────────────────────────────
+node_modules/
+dist/
+*.tsbuildinfo
+
+# ── Vercel ───────────────────────────────────────────────────
+.vercel/
+
+# ── Cloudflare Wrangler ──────────────────────────────────────
+.wrangler/
+wrangler.toml.bak
+# Your real worker config (contains your GitHub username + shared secret).
+# A template is committed instead: worker/wrangler.example.toml
+worker/wrangler.toml
+
+# ── Env / secrets — NEVER commit these ───────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*secret*
+
+# ── Editor / OS cruft ────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+
+# ── Local-only PWA state ─────────────────────────────────────
+.pwa-cache/

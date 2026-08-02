@@ -1,0 +1,40 @@
+# ============================================================
+#  StudySync — Cloudflare Worker configuration
+#  ------------------------------------------------------------
+#  SETUP FOR NEW USERS:
+#   1. Copy this file to `wrangler.toml` (same folder):
+#        cp wrangler.example.toml wrangler.toml
+#   2. Replace every <YOUR_...> placeholder below.
+#   3. Set the two secrets (never store tokens in this file):
+#        npx wrangler secret put GITHUB_PAT
+#        npx wrangler secret put SHARED_SECRET
+#   4. Deploy:
+#        npx wrangler deploy
+#
+#  NOTE: If you don't have a workers.dev subdomain yet, run
+#  `npx wrangler login` first — you'll be prompted to register one.
+# ============================================================
+
+name = "studysync-worker"
+main = "src/index.js"
+compatibility_date = "2024-07-30"
+
+[vars]
+# Your GitHub username (the account that owns the repo)
+GITHUB_OWNER = "<YOUR_GITHUB_USERNAME>"
+
+# The repository that will hold your daily logs, assignments & photos.
+# Create it first (private) at https://github.com/new
+GITHUB_REPO = "study-log"
+
+# The "password" the phone app + Tasker use to talk to this worker.
+# Pick your own strong value — it must match:
+#   • the app Settings page → Shared Secret
+#   • Tasker → %SHARED_SECRET
+# If you prefer an extra-secure option, set it via
+# `wrangler secret put SHARED_SECRET` instead of here.
+SHARED_SECRET = "<PICK_A_STRONG_SHARED_SECRET>"
+
+# Your local timezone so logged times are correct
+# (IANA name — find yours at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+TIMEZONE = "Asia/Kolkata"
