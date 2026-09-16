@@ -31,7 +31,7 @@ export function Settings() {
       </div>
       <div class="card">
         <h3 class="card-title">📍 Locations</h3>
-        <p class="card-desc">Set your home and college coordinates for Tasker geofencing.</p>
+        <p class="card-desc">Set your home and college coordinates for geofencing.</p>
         <div class="location-group"><label>Home Location</label><button class="btn btn-secondary btn-sm">📍 Pin Current Location</button></div>
         <div class="location-group"><label>College Location</label><button class="btn btn-secondary btn-sm">📍 Pin Current Location</button></div>
       </div>

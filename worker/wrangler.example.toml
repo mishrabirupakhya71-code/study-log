@@ -27,10 +27,9 @@ GITHUB_OWNER = "<YOUR_GITHUB_USERNAME>"
 # Create it first (private) at https://github.com/new
 GITHUB_REPO = "study-log"
 
-# The "password" the phone app + Tasker use to talk to this worker.
+# The "password" the phone app uses to talk to this worker.
 # Pick your own strong value — it must match:
 #   • the app Settings page → Shared Secret
-#   • Tasker → %SHARED_SECRET
 # If you prefer an extra-secure option, set it via
 # `wrangler secret put SHARED_SECRET` instead of here.
 SHARED_SECRET = "<PICK_A_STRONG_SHARED_SECRET>"

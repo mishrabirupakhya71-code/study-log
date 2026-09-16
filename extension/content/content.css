@@ -1,0 +1,94 @@
+/* StudySync Extension — Content Script Styles */
+
+#studysync-ext-root {
+  /* Reset to prevent host page interference */
+  all: initial;
+  position: fixed;
+  z-index: 2147483647;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* FAB Button */
+#studysync-fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #45B7D1, #4ECDC4);
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2147483647;
+  box-shadow: 0 4px 16px rgba(69, 183, 209, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  color: white;
+}
+
+#studysync-fab:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 24px rgba(69, 183, 209, 0.5);
+}
+
+#studysync-fab.active {
+  background: linear-gradient(135deg, #FF6B6B, #ee5a5a);
+}
+
+#studysync-fab.timer-active::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background: #39d353;
+  border-radius: 50%;
+  border: 2px solid white;
+  animation: studysync-pulse 2s infinite;
+}
+
+@keyframes studysync-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Widget Panel */
+#studysync-panel {
+  position: fixed;
+  bottom: 84px;
+  right: 20px;
+  width: 380px;
+  height: calc(100vh - 120px);
+  max-height: 640px;
+  z-index: 2147483646;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: studysync-slideUp 0.25s ease-out;
+}
+
+@keyframes studysync-slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#studysync-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 16px;
+}
+
+/* Mobile responsive */
+@media (max-width: 420px) {
+  #studysync-panel {
+    width: calc(100vw - 16px);
+    right: 8px;
+    bottom: 80px;
+    max-height: calc(100vh - 100px);
+  }
+}

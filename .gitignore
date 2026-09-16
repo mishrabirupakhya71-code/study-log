@@ -1,6 +1,7 @@
 # ── Dependencies & build output ─────────────────────────────
 node_modules/
 dist/
+dist-widget/
 *.tsbuildinfo
 
 # ── Vercel ───────────────────────────────────────────────────
@@ -29,3 +30,8 @@ Thumbs.db
 
 # ── Local-only PWA state ─────────────────────────────────────
 .pwa-cache/
+
+# ── Extension build artifacts (widget bundle is copied here) ─
+extension/widget/studysync-widget.js
+extension/widget/studysync-widget.css
+extension/widget/sw.js

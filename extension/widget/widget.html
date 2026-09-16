@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudySync</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #12121c;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="studysync-widget-root"></div>
+  <!--
+    In production, this loads the built widget bundle.
+    During development, it can load from the Vite dev server.
+  -->
+  <script type="module">
+    // For the extension, the widget is bundled at build time.
+    // The built files (studysync-widget.js + studysync-widget.css) are
+    // copied into extension/widget/ by the build script.
+    //
+    // Auth comes from chrome.storage or the host page's auth context.
+    import './studysync-widget.js';
+
+    // Initialize in inline mode (fills the iframe body)
+    window.addEventListener('DOMContentLoaded', () => {
+      // Get user from extension storage
+      chrome.runtime.sendMessage({ type: 'GET_USER' }, (response) => {
+        if (response?.user) {
+          window.StudySyncConfig = { user: response.user };
+        }
+        window.StudySync.init({
+          container: '#studysync-widget-root',
+          mode: 'inline',
+        });
+      });
+    });
+
+    // Notify parent of timer state changes
+    const originalTimerState = {};
+    setInterval(() => {
+      const running = window.StudySync?.isOpen ?? false;
+      if (running !== originalTimerState.isRunning) {
+        originalTimerState.isRunning = running;
+        window.parent.postMessage({
+          source: 'studysync-widget',
+          type: 'TIMER_STATE',
+          isRunning: running,
+        }, '*');
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

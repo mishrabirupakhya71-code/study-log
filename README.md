@@ -14,8 +14,7 @@ Everything you log — study sessions, assignments, commute events, photo notes 
 | 📊 **Analytics** | GitHub-style heatmap calendar, per-subject pie/bars, streaks, levels & badges |
 | 📚 **Homework** | Assignments with due dates, priorities, completion tracking + **Google Classroom import** |
 | 🚶 **Auto Commute Log** | GPS geofences auto-log *Departed Home / Arrived College / Departed College / Arrived Home* |
-| 🔒 **Phone Lockdown** | Scheduled + manual block of social/entertainment apps during study hours |
-| 📸 **Photo Notes** | Attach camera/gallery photos to your notes & assignments |
+|  **Photo Notes** | Attach camera/gallery photos to your notes & assignments |
 | 📋 **Daily Log** | One auto-built issue per day on GitHub combining everything |
 | 📱 **Cross-Device** | Same PWA works on laptop browser + phone, installable to home screen |
 
@@ -25,16 +24,16 @@ Everything you log — study sessions, assignments, commute events, photo notes 
 
 ```
 ┌────────────────────── ANDROID PHONE ──────────────────────┐
-│  PWA (installable)          Tasker + AutoLocation          │
-│  • Study timer / subjects   • GPS geofences (home/college) │
-│  • Homework tracker         • App lockdown (study hours)   │
-│  • Photo notes              • HTTP events → worker         │
-└───────────┬──────────────────────────┬────────────────────┘
-            │                          │
-            ▼                          ▼
+│  PWA (installable)                                         │
+│  • Study timer / subjects                                  │
+│  • Homework tracker                                        │
+│  • Photo notes                                             │
+└───────────┬───────────────────────────────────────────────┘
+            │
+            ▼
    ┌─────────────────────────────────────────┐
    │   Cloudflare Worker (free relay)        │
-   │   • Receives Tasker + PWA events        │
+   │   • Receives PWA events                 │
    │   • Keeps your GitHub token SECURE here │
    │   • Builds issue markdown + photos      │
    └──────────────────┬──────────────────────┘
@@ -69,9 +68,6 @@ study-sync/
 │   └── public/sw.js      # Service worker (offline + background sync)
 ├── worker/               # Cloudflare Worker (the GitHub relay)
 │   └── src/              # index.js, github.js, templates.js, auth.js
-├── tasker/               # Android automation (Tasker profiles + tasks)
-│   ├── profiles/         # geofence-home/college, app-blocker
-│   └── tasks/            # send-location-event
 ├── .github/workflows/    # weekly-summary.yml (auto weekly digest)
 └── README.md
 ```
@@ -86,7 +82,6 @@ study-sync/
 - A **GitHub account**
 - A **Cloudflare account** (free)
 - A **Vercel account** (free) — or any static host
-- An **Android phone** with Tasker (paid app) installed
 
 ---
 
@@ -142,16 +137,7 @@ Open the deployed PWA on your phone → **Settings** tab:
 - **Shared Secret**: the one you chose
 - Tap **Save**
 
-### 5️⃣ Set up Tasker on your phone (15 min)
-
-Follow the full walkthrough in **[`tasker/README.md`](tasker/README.md)**:
-1. Import `tasks/send-location-event.xml`
-2. Import `profiles/geofence-home.xml`, `geofence-college.xml`, `app-blocker.xml`
-3. Set variables `%WORKER_URL` + `%SHARED_SECRET` in Tasker's VARS tab
-4. Create Home & College geofences in AutoLocation (drop pins at your locations, ~200m radius)
-5. Grant Tasker **Location: allow all the time** + disable battery optimization
-
-### 6️⃣ (Optional) Google Classroom import
+### 5️⃣ (Optional) Google Classroom import
 
 See `pwa/src/services/classroom.js` — add your Google **Web Client ID** and a button in the Homework page will import your assignments automatically.
 
@@ -163,7 +149,6 @@ See `pwa/src/services/classroom.js` — add your Google **Web Client ID** and a 
 - **Commute** → just walk/drive. Geofences handle the logging — nothing to tap.
 - **Homework** → Homework tab → + Add → title, subject, due date, priority. Or import from Classroom.
 - **Photo note** → while writing a note/assignment, tap 📷 / 🖼️ to attach a photo.
-- **Lockdown** → the app-blocker profile turns on during your study schedule, or manually when you start a session.
 
 ---
 
@@ -174,7 +159,7 @@ See `pwa/src/services/classroom.js` — add your Google **Web Client ID** and a 
 |-----|---------|
 | `GITHUB_OWNER` | Your GitHub username |
 | `GITHUB_REPO` | The repo holding your logs (e.g. `study-log`) |
-| `SHARED_SECRET` | Password the app/Tasker use to authenticate |
+| `SHARED_SECRET` | Password the app uses to authenticate |
 | `TIMEZONE` | IANA zone, e.g. `Asia/Kolkata`, for correct logged times |
 
 ### Worker secrets (set via `wrangler secret put`)
@@ -207,10 +192,9 @@ The repo includes `.github/workflows/weekly-summary.yml`. It runs every Sunday a
 
 | Symptom | Fix |
 |---------|-----|
-| `401 Unauthorized` in Tasker | Shared secret mismatch — check `%SHARED_SECRET` in Tasker == worker secret |
-| `Invalid Date` in GitHub comments | You had `"timestamp":"%TIMEMS"` with quotes — remove quotes: `"timestamp":%TIMEMS` |
+| `401 Unauthorized` | Shared secret mismatch — check the secret in Settings matches the worker secret |
+| `Invalid Date` in GitHub comments | Ensure timestamps are sent as numbers, not strings |
 | Times wrong in comments | Set `TIMEZONE` in `wrangler.toml` and redeploy |
-| Tasker says "need latest version" on import | Use the fixed XML files in `tasker/`; rebuild the HTTP Request in Tasker's UI if import still fails |
 | PWA not syncing | Check Settings → Worker URL + Shared Secret are saved; ensure the app is online |
 
 ---
@@ -220,7 +204,6 @@ The repo includes `.github/workflows/weekly-summary.yml`. It runs every Sunday a
 - **PWA**: Preact + Vite + Preact Signals + IndexedDB (idb)
 - **Relay**: Cloudflare Worker (ES modules)
 - **Data store**: GitHub Issues + Release Assets (photos)
-- **Automation**: Tasker + AutoLocation (Android)
 - **CI digest**: GitHub Actions (weekly summary)
 
 ---

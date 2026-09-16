@@ -9,7 +9,7 @@ export default {
       return new Response(null, { headers: corsHeaders() });
     }
 
-    // Require authentication (from Tasker or our PWA)
+    // Require authentication (from our PWA)
     if (!authenticate(request, env)) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
         status: 401,
@@ -22,7 +22,7 @@ export default {
     try {
       // ----------------------------------------------------
       // ROUTE: /api/location-event
-      // Used by Tasker to log entry/exit of Home or College
+      // Used by PWA to log entry/exit of Home or College
       // ----------------------------------------------------
       if (request.method === 'POST' && url.pathname === '/api/location-event') {
         const payload = await request.json(); // { event: 'enter_home', timestamp: 1700000... }

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudySync</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 360px;
+      min-height: 200px;
+      background: #12121c;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+    }
+    .popup-header {
+      padding: 16px;
+      text-align: center;
+      border-bottom: 1px solid #2d2d44;
+    }
+    .popup-header h1 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .popup-header span {
+      font-size: 12px;
+      color: #8b8ba7;
+    }
+    .popup-body {
+      padding: 16px;
+    }
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: #1e1e2d;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .stat-label { color: #8b8ba7; font-size: 13px; }
+    .stat-value { font-weight: 700; font-size: 16px; color: #45B7D1; }
+    .btn-open {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #45B7D1, #4ECDC4);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: opacity 0.2s;
+    }
+    .btn-open:hover { opacity: 0.9; }
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: #1e1e2d;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    .user-avatar { width: 32px; height: 32px; border-radius: 50%; }
+    .user-info { flex: 1; }
+    .user-name { font-weight: 600; font-size: 13px; display: block; }
+    .user-email { font-size: 11px; color: #8b8ba7; }
+    .settings-link {
+      text-align: center;
+      margin-top: 12px;
+    }
+    .settings-link a {
+      color: #8b8ba7;
+      font-size: 12px;
+      text-decoration: none;
+    }
+    .settings-link a:hover { color: #45B7D1; }
+  </style>
+</head>
+<body>
+  <div class="popup-header">
+    <h1>📖 StudySync</h1>
+    <span>Study tracking widget</span>
+  </div>
+  <div class="popup-body">
+    <div class="user-section" id="userSection" style="display:none">
+      <img class="user-avatar" id="userAvatar" src="" alt="">
+      <div class="user-info">
+        <span class="user-name" id="userName"></span>
+        <span class="user-email" id="userEmail"></span>
+      </div>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">⏱ Timer</span>
+      <span class="stat-value" id="timerStatus">Idle</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">🔥 Streak</span>
+      <span class="stat-value" id="streakValue">—</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">📅 Today</span>
+      <span class="stat-value" id="todayValue">—</span>
+    </div>
+    <button class="btn-open" id="openWidget">Open StudySync Widget</button>
+    <div class="settings-link">
+      <a href="#" id="settingsLink">⚙️ Extension Settings</a>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
